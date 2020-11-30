@@ -67,10 +67,13 @@ class CLINT(params: CLINTParams, beatBytes: Int)(implicit p: Parameters) extends
     })
 
     val time = RegInit(UInt(0, width = timeWidth))
+    midas.targetutils.FpgaDebug(time)
     when (io.rtcTick) { time := time + UInt(1) }
 
     val nTiles = intnode.out.size
     val timecmp = Seq.fill(nTiles) { Reg(UInt(width = timeWidth)) }
+    // Don't understand why _ is still a Seq[chisel3.Data] instead of chisel3.Data
+    //timecmp.flatMap( _ => midas.targetutils.FpgaDebug(_) )
     val ipi = Seq.fill(nTiles) { RegInit(UInt(0, width = 1)) }
 
     val (intnode_out, _) = intnode.out.unzip

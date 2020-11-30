@@ -56,6 +56,8 @@ lazy val commonSettings = Seq(
   }
 )
 
+lazy val midas_targetutils = ProjectRef(file(".."), "midas_targetutils")
+
 lazy val chiselRef = ProjectRef(workspaceDirectory / "chisel3", "chisel")
 lazy val chiselLib = "edu.berkeley.cs" %% "chisel3" % chiselVersion
 // While not built from source, *must* be in sync with the chisel3 git submodule
@@ -80,6 +82,7 @@ lazy val rocketchip = (project in file("."))
   .dependsOn(`api-config-chipsalliance`)
   .dependsOn(hardfloat)
   .dependsOn(`rocket-macros`)
+  .dependsOn(midas_targetutils)
   .settings( // Assembly settings
     assembly / test := {},
     assembly / assemblyJarName := "rocketchip.jar",
